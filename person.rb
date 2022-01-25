@@ -6,19 +6,16 @@ class Person
     @parent_permission = parent_permission
   end
 
-  attr_accessor :name
-  attr_accessor :age
+  attr_accessor :name, :age
   attr_reader :id
 
   def can_use_services?
-    true if is_of_age? || @parent_permission
+    true if of_age? || @parent_permission
   end
 
   private
 
-  def is_of_age?
-    true if @age >= 18
-   
+  def of_age?
+    true if @age >= 18   
   end
-
 end
