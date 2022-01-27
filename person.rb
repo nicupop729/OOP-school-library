@@ -22,8 +22,8 @@ class Person
   end
 
   def add_rental(rental)
-    @rentals.push(rental)
-    rental.person = self
+    @rentals << rental
+    rental.person = self unless rental.person == self
   end
 
   private
