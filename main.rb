@@ -1,4 +1,5 @@
 class Main
+
   def print_options
     puts 'Please choose an option by entering a number'
     puts '1- List all books'
@@ -8,6 +9,17 @@ class Main
     puts '5- Create a rental'
     puts '6- List all rentals for a given person id '
     puts '7- exit'
+  end
+
+  def create_person
+    puts 'Do you want to create a student (1) or a teacher (2)? [Input the number]'
+    input = gets.chomp
+    case input
+    when '1'
+      create_student
+    when '2'
+      create_teacher
+    end
   end
 
   def select_option
@@ -32,8 +44,7 @@ class Main
       end
     end
   end
-
 end
 
 test = Main.new
-test.print_options
+test.select_option
