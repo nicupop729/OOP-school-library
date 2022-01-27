@@ -1,7 +1,12 @@
+require './teacher'
+
 class Main
+  def initialize
+    @people = []
+  end
 
   def print_options
-    puts 'Please choose an option by entering a number'
+    puts 'Please choose an option by entering a number:'
     puts '1- List all books'
     puts '2- List all people'
     puts '3- Create a person'
@@ -20,6 +25,19 @@ class Main
     when '2'
       create_teacher
     end
+  end
+
+  def create_teacher
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+    print 'Specialization: '
+    specialization = gets.chomp
+    new_teacher = Teacher.new(specialization, age, name)
+    puts 'Person created successfully'
+    @people << new_teacher
+    puts
   end
 
   def select_option
