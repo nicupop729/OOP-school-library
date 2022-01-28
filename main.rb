@@ -97,7 +97,7 @@ class Main
     book_idx = gets.chomp.to_i
     puts 'Select the index of the person from the following list:'
     @people.each_with_index do |person, i|
-      puts "#{i + 1}: Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      puts "#{i + 1}: Name: #{person.name}, Age: #{person.age}, ID: #{person.id}"
     end
     person_idx = gets.chomp.to_i
     print 'Date: '
@@ -105,6 +105,18 @@ class Main
     rental = Rental.new(date, @books[book_idx - 1], @people[person_idx - 1])
     @rentals << rental
     puts 'Rental created successfully'
+    puts
+  end
+
+  def list_rentals_for_person
+    puts 'Display people: '
+    list_people
+    print 'ID of person: '
+    id_of_person = gets.chomp.to_i
+    puts 'Rentals:'
+    @rentals.each do |rent|
+      puts "Date: #{rent.date}, Book: #{rent.book.title}, renter #{rent.book.author}" if rent.person.id == id_of_person
+    end
     puts
   end
 
