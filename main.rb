@@ -1,10 +1,12 @@
 require './teacher'
 require './student'
 require './classroom'
+require './book'
 
 class Main
   def initialize
     @people = []
+    @books = []
   end
 
   def print_options
@@ -54,6 +56,17 @@ class Main
     new_teacher = Teacher.new(specialization, age, name)
     puts 'Person created successfully'
     @people << new_teacher
+    puts
+  end
+
+  def create_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
+    new_book = Book.new(title, author)
+    @books << new_book
+    puts 'New book created successfully'
     puts
   end
 
