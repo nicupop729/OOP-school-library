@@ -1,4 +1,6 @@
 require './teacher'
+require './student'
+require './classroom'
 
 class Main
   def initialize
@@ -25,6 +27,21 @@ class Main
     when '2'
       create_teacher
     end
+  end
+
+  def create_student
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+    print 'Has parent permission?[Y/N] '
+    parent_permission = gets.chomp
+    print 'Classroom: '
+    class_room = Classroom.new(gets.chomp)
+    new_student = Student.new(age, class_room, name, parent_permission: parent_permission == 'y')
+    puts 'Person Created successfully'
+    @people << new_student
+    puts
   end
 
   def create_teacher
