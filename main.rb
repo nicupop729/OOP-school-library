@@ -36,6 +36,11 @@ class Main
     puts
   end
 
+  def list_people
+    @people.each_with_index { |person, i| puts "#{i + 1}: Name: #{person.name}, Age: #{person.age} ID: #{person.id}" }
+    puts
+  end
+
   def create_person
     puts 'Do you want to create a student (1) or a teacher (2)? [Input the number]'
     input = gets.chomp
