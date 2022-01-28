@@ -22,6 +22,20 @@ class Main
     puts '7- exit'
   end
 
+  def list_books_or_people(input)
+    case input
+    when '1'
+      list_books
+    when '2'
+      list_people
+    end
+  end
+
+  def list_books
+    @books.each_with_index { |book, i| puts "#{i + 1}: Title: #{book.title}, Author: #{book.author}" }
+    puts
+  end
+
   def create_person
     puts 'Do you want to create a student (1) or a teacher (2)? [Input the number]'
     input = gets.chomp
@@ -74,11 +88,11 @@ class Main
 
   def create_rental
     puts 'Select the index of desired book from the following list:'
-    @books.each_with_index { |book, i| puts "#{i+1}: Title: #{book.title}, Author: #{book.author}" }
+    @books.each_with_index { |book, i| puts "#{i + 1}: Title: #{book.title}, Author: #{book.author}" }
     book_idx = gets.chomp.to_i
     puts 'Select the index of the person from the following list:'
     @people.each_with_index do |person, i|
-      puts "#{i+1}: Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      puts "#{i + 1}: Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     person_idx = gets.chomp.to_i
     print 'Date: '
@@ -94,10 +108,8 @@ class Main
       print_options
       input = gets.chomp
       case input
-      when '1'
-        list_books
-      when '2'
-        list_people
+      when '1', '2'
+        list_books_or_people(input)
       when '3'
         create_person
       when '4'
