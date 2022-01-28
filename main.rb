@@ -86,7 +86,7 @@ class Main
     print 'Author: '
     author = gets.chomp
     new_book = Book.new(title, author)
-    @books << new_book
+    @book << new_book
     puts 'New book created successfully'
     puts
   end
