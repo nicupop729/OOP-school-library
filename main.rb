@@ -2,11 +2,13 @@ require './teacher'
 require './student'
 require './classroom'
 require './book'
+require './rental'
 
 class Main
   def initialize
     @people = []
     @books = []
+    @rentals = []
   end
 
   def print_options
@@ -67,6 +69,23 @@ class Main
     new_book = Book.new(title, author)
     @books << new_book
     puts 'New book created successfully'
+    puts
+  end
+
+  def create_rental
+    puts 'Select the index of desired book from the following list:'
+    @books.each_with_index { |book, i| puts "#{i+1}: Title: #{book.title}, Author: #{book.author}" }
+    book_idx = gets.chomp.to_i
+    puts 'Select the index of the person from the following list:'
+    @people.each_with_index do |person, i|
+      puts "#{i+1}: Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+    person_idx = gets.chomp.to_i
+    print 'Date: '
+    date = gets.chomp
+    rental = Rental.new(date, @books[book_idx - 1], @people[person_idx - 1])
+    @rentals << rental
+    puts 'Rental created successfully'
     puts
   end
 
