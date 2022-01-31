@@ -4,41 +4,44 @@ require './classroom'
 require './book'
 require './rental'
 
-class Main
-  def initialize
-    @people = []
-    @books = []
-    @rentals = []
+class List
+  def initialize(list, type)
+    @list = list
+    @type = type
   end
 
-  def print_options
-    puts 'Please choose an option by entering a number:'
-    puts '1- List all books'
-    puts '2- List all people'
-    puts '3- Create a person'
-    puts '4- Create a book'
-    puts '5- Create a rental'
-    puts '6- List all rentals for a given person id '
-    puts '7- exit'
-  end
-
-  def list_books_or_people(input)
-    case input
-    when '1'
-      list_books
-    when '2'
-      list_people
+  def list_items
+    if (@type == 'people')
+      @list.each_with_index { |item, i| puts "#{i + 1}: Name: #{item.name}, Age: #{item.age} ID: #{item.id}" }        
+    else @list.each_with_index { |item, i|  puts "#{i + 1}: Title: #{item.title}, Author: #{item.author}" }
     end
   end
+end
 
-  def list_books
-    @books.each_with_index { |book, i| puts "#{i + 1}: Title: #{book.title}, Author: #{book.author}" }
-    puts
+class Books
+  attr_accessor :books
+  
+  def initialize
+    @books = []
   end
 
-  def list_people
-    @people.each_with_index { |person, i| puts "#{i + 1}: Name: #{person.name}, Age: #{person.age} ID: #{person.id}" }
+  def create_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
+    new_book = Book.new(title, author)
+    @books << new_book
+    puts 'New book created successfully'
     puts
+  end
+end
+
+class People
+  attr_accessor :people
+
+  def initialize
+    @people = []
   end
 
   def create_person
@@ -79,16 +82,26 @@ class Main
     @people << new_teacher
     puts
   end
+end
 
-  def create_book
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-    new_book = Book.new(title, author)
-    @books << new_book
-    puts 'New book created successfully'
-    puts
+class Main
+  def initialize
+    @rentals = []
+    @new_person = People.new()
+    @new_book = Books.new()
+    @list_people = List.new(@new_person.people, 'people')
+    @list_book = List.new(@new_book.books, 'book')
+  end
+
+  def print_options
+    puts 'Please choose an option by entering a number:'
+    puts '1- List all books'
+    puts '2- List all people'
+    puts '3- Create a person'
+    puts '4- Create a book'
+    puts '5- Create a rental'
+    puts '6- List all rentals for a given person id '
+    puts '7- exit'
   end
 
   def create_rental
@@ -119,18 +132,21 @@ class Main
     end
     puts
   end
+  # rubocop:disable Metrics/CyclomaticComplexity
 
   def select_option
     loop do
       print_options
       input = gets.chomp
       case input
-      when '1', '2'
-        list_books_or_people(input)
+      when '1'
+        @list_book.list_items
+      when '2'
+        @list_people.list_items
       when '3'
-        create_person
+        @new_person.create_person
       when '4'
-        create_book
+        @new_book.create_book
       when '5'
         create_rental
       when '6'
@@ -140,6 +156,8 @@ class Main
       end
     end
   end
+
+  # rubocop:enable Metrics/CyclomaticComplexity
 end
 
 test = Main.new
