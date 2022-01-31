@@ -5,22 +5,25 @@ require './book'
 require './rental'
 
 class List
+  attr_reader :list
+
   def initialize(list, type)
     @list = list
     @type = type
   end
 
   def list_items
-    if (@type == 'people')
-      @list.each_with_index { |item, i| puts "#{i + 1}: Name: #{item.name}, Age: #{item.age} ID: #{item.id}" }        
-    else @list.each_with_index { |item, i|  puts "#{i + 1}: Title: #{item.title}, Author: #{item.author}" }
+    if @type == 'people'
+      @list.each_with_index { |item, i| puts "#{i + 1}: Name: #{item.name}, Age: #{item.age} ID: #{item.id}" }
+    else
+      @list.each_with_index { |item, i| puts "#{i + 1}: Title: #{item.title}, Author: #{item.author}" }
     end
   end
 end
 
 class Books
   attr_accessor :books
-  
+
   def initialize
     @books = []
   end
@@ -84,11 +87,44 @@ class People
   end
 end
 
-class Main
+class Rentals
   def initialize
     @rentals = []
-    @new_person = People.new()
-    @new_book = Books.new()
+  end
+
+  def create_rental(list_people, list_books)
+    puts 'Select the index of desired book from the following list:'
+    list_books.list_items
+    book_idx = gets.chomp.to_i
+    puts 'Select the index of the person from the following list:'
+    list_people.list_items
+    person_idx = gets.chomp.to_i
+    print 'Date: '
+    date = gets.chomp
+    rental = Rental.new(date, list_books.list[book_idx - 1], list_people.list[person_idx - 1])
+    @rentals << rental
+    puts 'Rental created successfully'
+    puts
+  end
+
+  def list_rentals_for_person(list_people)
+    puts 'Display people: '
+    list_people.list_items
+    print 'ID of person: '
+    id_of_person = gets.chomp.to_i
+    puts 'Rentals:'
+    @rentals.each do |rent|
+      puts "Date: #{rent.date}, Book: #{rent.book.title}, renter #{rent.book.author}" if rent.person.id == id_of_person
+    end
+    puts
+  end
+end
+
+class Main
+  def initialize
+    @new_person = People.new
+    @new_book = Books.new
+    @new_rentals = Rentals.new
     @list_people = List.new(@new_person.people, 'people')
     @list_book = List.new(@new_book.books, 'book')
   end
@@ -102,35 +138,6 @@ class Main
     puts '5- Create a rental'
     puts '6- List all rentals for a given person id '
     puts '7- exit'
-  end
-
-  def create_rental
-    puts 'Select the index of desired book from the following list:'
-    @books.each_with_index { |book, i| puts "#{i + 1}: Title: #{book.title}, Author: #{book.author}" }
-    book_idx = gets.chomp.to_i
-    puts 'Select the index of the person from the following list:'
-    @people.each_with_index do |person, i|
-      puts "#{i + 1}: Name: #{person.name}, Age: #{person.age}, ID: #{person.id}"
-    end
-    person_idx = gets.chomp.to_i
-    print 'Date: '
-    date = gets.chomp
-    rental = Rental.new(date, @books[book_idx - 1], @people[person_idx - 1])
-    @rentals << rental
-    puts 'Rental created successfully'
-    puts
-  end
-
-  def list_rentals_for_person
-    puts 'Display people: '
-    list_people
-    print 'ID of person: '
-    id_of_person = gets.chomp.to_i
-    puts 'Rentals:'
-    @rentals.each do |rent|
-      puts "Date: #{rent.date}, Book: #{rent.book.title}, renter #{rent.book.author}" if rent.person.id == id_of_person
-    end
-    puts
   end
   # rubocop:disable Metrics/CyclomaticComplexity
 
@@ -148,9 +155,9 @@ class Main
       when '4'
         @new_book.create_book
       when '5'
-        create_rental
+        @new_rentals.create_rental(@list_people, @list_book)
       when '6'
-        list_rentals_for_person
+        @new_rentals.list_rentals_for_person(@list_people)
       when '7'
         break
       end
