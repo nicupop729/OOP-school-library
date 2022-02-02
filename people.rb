@@ -1,12 +1,15 @@
 require './teacher'
 require './student'
 require './classroom'
+require './store_data'
 
 class People
   attr_accessor :people
 
   def initialize
-    @people = []
+    @data = StoreData.new
+    @data.fetch_data
+    @people = JSON.parse(@data.people)
   end
 
   def create_person
@@ -32,13 +35,17 @@ class People
     print 'Classroom: '
     class_room = Classroom.new(gets.chomp)
     new_student = Student.new(age, class_room, name, parent_permission: parent_permission == 'y')
-    @people << new_student
+    @people << ({ "age": new_student.age, "class_room": class_room.label, "name": new_student.name, "parent_permission": new_student.parent_permission, "id": new_student.id})
+    @data.set_people(JSON.generate(@people))
+    @people = JSON.parse(@data.people)
   end
 
   def create_teacher(age, name)
     print 'Specialization: '
     specialization = gets.chomp
     new_teacher = Teacher.new(specialization, age, name)
-    @people << new_teacher
+    @people << ({"specialization": new_teacher.specialization, "age": new_teacher.age, name:new_teacher.name, "id": new_teacher.id})
+    @data.set_people(JSON.generate(@people))
+    @people = JSON.parse(@data.people)
   end
 end

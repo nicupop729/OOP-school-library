@@ -1,3 +1,5 @@
+require 'json'
+
 class StoreData
   attr_reader :books, :people, :rentals
 
@@ -7,28 +9,28 @@ class StoreData
     @rentals = rentals
   end
 
-  def fetchData
-    fetchBooks
-    fetchPeople
-    fetchRentals
+  def fetch_data
+    fetch_books
+    fetch_people
+    fetch_rentals
   end
 
-  def books(all_books)
+  def set_books(all_books)
     @books = all_books
     File.write('./books.json', @books)
   end
 
-  def people(all_people)
+  def set_people(all_people)
     @people = all_people
     File.write('./people.json', @people)
   end
 
-  def rentals(all_rentals)
+  def set_rentals(all_rentals)
     @rentals = all_rentals
     File.write('./rentals.json', @rentals)
   end
 
-  def closeDocument
+  def close_document
     @books_file.close
     @people_file.close
     @rentals_file.close
@@ -36,37 +38,40 @@ class StoreData
 
   private
 
-  def fetchBooks
+  def fetch_books
     exist = File.exist?('./books.json')
-    if (exist == false) 
+    unless exist
       @books_file = File.open('./books.json', 'w')
     end
     @books_file = File.open('./books.json')
     @books = @books_file.read
-    puts @books
   end
 
-  def fetchPeople
+  def fetch_people
     exist = File.exist?('./people.json')
-    if (exist == false) 
+    unless exist
       @people_file = File.open('./people.json', 'w')
     end
     @people_file = File.open('./people.json')
     @people = @people_file.read
-    puts @people
   end
 
-  def fetchRentals
+  def fetch_rentals
     exist = File.exist?('./rentals.json')
-    if (exist == false) 
+    unless exist
       @rentals_file = File.open('./rentals.json', 'w')
     end
     @rentals_file = File.open('./rentals.json')
     @rentals = @rentals_file.read
-    puts @rentals
   end
 
 end
+#
+# data_stored = StoreData.new()
+# data_stored.fetch_data
+# bookies = (JSON.parse(data_stored.books))
+# bookies << {secondBook: "secondBOOOK"}
+# data_stored.set_books(JSON.generate(bookies))
+# p data_stored.books
 
-books_stored = StoreData.new()
-puts books_stored.fetchData
+
