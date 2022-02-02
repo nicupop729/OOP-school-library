@@ -35,8 +35,9 @@ class People
     print 'Classroom: '
     class_room = Classroom.new(gets.chomp)
     new_student = Student.new(age, class_room, name, parent_permission: parent_permission == 'y')
-    @people << ({ "age": new_student.age, "class_room": class_room.label, "name": new_student.name, "parent_permission": new_student.parent_permission, "id": new_student.id})
-    @data.set_people(JSON.generate(@people))
+    @people << ({ age: new_student.age, class_room: class_room.label, name: new_student.name,
+                  parent_permission: new_student.parent_permission, id: new_student.id })
+    @data.people_set(JSON.generate(@people))
     @people = JSON.parse(@data.people)
   end
 
@@ -44,8 +45,9 @@ class People
     print 'Specialization: '
     specialization = gets.chomp
     new_teacher = Teacher.new(specialization, age, name)
-    @people << ({"specialization": new_teacher.specialization, "age": new_teacher.age, name:new_teacher.name, "id": new_teacher.id})
-    @data.set_people(JSON.generate(@people))
+    @people << ({ specialization: new_teacher.specialization, age: new_teacher.age, name: new_teacher.name,
+                  id: new_teacher.id })
+    @data.people_set(JSON.generate(@people))
     @people = JSON.parse(@data.people)
   end
 end

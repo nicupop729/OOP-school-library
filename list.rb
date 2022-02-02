@@ -9,13 +9,15 @@ class List
   end
 
   def list_items(kind)
-      @data.fetch_data
+    @data.fetch_data
     if kind == 'people'
       @list = JSON.parse(@data.people)
-      @list.each_with_index { |item, i| puts "#{i + 1}: Name: #{item["name"]}, Age: #{item["age"]}, ID: #{item["id"]}" }
+      @list.each_with_index do |item, i|
+        puts "#{i + 1}: Name: #{item['name']}, Age: #{item['age']}, ID: #{item['id']}"
+      end
     else
       @list = JSON.parse(@data.books)
-      @list.each_with_index { |item, i| puts "#{i + 1}: Title: #{item["title"]}, Author: #{item["author"]}" }
+      @list.each_with_index { |item, i| puts "#{i + 1}: Title: #{item['title']}, Author: #{item['author']}" }
     end
     puts
   end

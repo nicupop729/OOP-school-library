@@ -21,8 +21,8 @@ class Books
   def create_book
     title, author = book_details
     new_book = Book.new(title, author)
-    @books << ({title: new_book.title, author: new_book.author })
-    @data.set_books(JSON.generate(@books))
+    @books << ({ title: new_book.title, author: new_book.author })
+    @data.books_set(JSON.generate(@books))
     puts 'New book created successfully'
     puts
   end

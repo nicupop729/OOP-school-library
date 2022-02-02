@@ -17,10 +17,11 @@ class Rentals
     person_idx = gets.chomp.to_i
     print 'Date: '
     date = gets.chomp
-    rental = Rental.new(date, list_books.list[book_idx - 1]["title"], list_people.list[person_idx - 1]["name"], list_people.list[person_idx - 1]["id"])
+    rental = Rental.new(date, list_books.list[book_idx - 1]['title'], list_people.list[person_idx - 1]['name'],
+                        list_people.list[person_idx - 1]['id'])
     p rental
-    @rentals << ({date: rental.date, book: rental.book, person: rental.person, id: rental.id})
-    @data.set_rentals(JSON.generate(@rentals))
+    @rentals << ({ date: rental.date, book: rental.book, person: rental.person, id: rental.id })
+    @data.rentals_set(JSON.generate(@rentals))
     puts 'Rental created successfully'
     puts
   end
@@ -32,7 +33,7 @@ class Rentals
     id_of_person = gets.chomp.to_i
     puts 'Rentals:'
     @rentals.each do |rent|
-      puts "Date: #{rent["date"]}, Book: #{rent["book"]}, renter: #{rent["person"]}" if rent["id"] == id_of_person
+      puts "Date: #{rent['date']}, Book: #{rent['book']}, renter: #{rent['person']}" if rent['id'] == id_of_person
     end
     puts
   end
