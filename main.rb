@@ -30,9 +30,10 @@ class Main
       input = gets.chomp
       case input
       when '1'
-        @list_book.list_items
+        @list_book.list_items('books')
       when '2'
-        @list_people.list_items
+
+        @list_people.list_items('people')
       when '3'
         @new_person.create_person
       when '4'
