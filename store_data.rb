@@ -59,10 +59,3 @@ class StoreData
     @rentals = @rentals_file.read
   end
 end
-#
-# data_stored = StoreData.new()
-# data_stored.fetch_data
-# bookies = (JSON.parse(data_stored.books))
-# bookies << {secondBook: "secondBOOOK"}
-# data_stored.set_books(JSON.generate(bookies))
-# p data_stored.books
